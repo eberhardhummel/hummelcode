@@ -19,8 +19,11 @@ sudo apt-get install -y     apt-transport-https     ca-certificates     curl    
 sudo apt-get install -y docker-ce 
 sudo cp daemon.json /etc/docker/daemon.json
 #sudo systemctl restart docker
+echo "sleeping for 60 seconds"
 sleep 60
+echo "stopping docker service"
 systemctl stop docker
+echo "starting docker service"
 systemctl start docker
 
 exit 0
