@@ -85,7 +85,7 @@ sudo apt-get -y remove libvirt
 sudo apt -y autoremove
 sudo rm -rf /etc/kubernetes
 sudo rm -rf /var/lib/docker
-
+sudo rm -rf /root/.kube/*
 exit 0
 
 
