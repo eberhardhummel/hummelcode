@@ -52,10 +52,17 @@ kubectl get pods --all-namespaces
 kubectl get nodes
 kubectl describe node kube-master
 kubectl get services --all-namespaces
+kubectl get deployments
 
 #install dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+
 kubectl apply -f kubernetes-dashboard-anonymous.yaml
+kubectl create -f ./create-namespace.yaml
+kubectl apply -f hello-world-container-deployment.yaml
+kubectl apply -f deploy-pod.yaml
+kubectl rollout restart deployment kube-master
+
 
 
 
