@@ -42,12 +42,6 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 export KUBECONFIG=/etc/kubernetes/admin.conf
-kubectl cluster-info
-kubectl get pods --all-namespaces
-kubectl get nodes
-kubectl describe node kube-master
-kubectl get services --all-namespaces
-kubectl get deployments
 
 #install dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
@@ -58,6 +52,14 @@ kubectl create -f ./create-namespace.yaml
 kubectl apply -f hello-world-container-deployment.yaml
 kubectl apply -f deploy-pod.yaml
 kubectl rollout restart deployment kube-master
+
+kubectl cluster-info
+kubectl get pods --all-namespaces
+kubectl get nodes --all-namespaces
+kubectl describe node kube-master
+kubectl get services --all-namespaces
+kubectl get deployments --all-namespaces
+
 exit 0
 
 #tear down
