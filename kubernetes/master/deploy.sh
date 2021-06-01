@@ -19,6 +19,8 @@ sudo apt-get install -y     apt-transport-https     ca-certificates     curl    
 sudo apt-get install -y docker-ce 
 sudo cp daemon.json /etc/docker/daemon.json
 sudo systemctl restart docker
+
+exit 0
 #sudo snap list
 #sudo apt purge snapd
 sudo swapoff -a
