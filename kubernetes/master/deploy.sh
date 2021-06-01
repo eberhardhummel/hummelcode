@@ -7,8 +7,8 @@
 
 #build up
 echo "Start build up"
+sudo apt-get update
 sudo apt-get install -y golang
-sudo apt-get install -y libvirt-bin
 sudo apt-get install -y libvirt
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
@@ -81,6 +81,8 @@ sudo apt-get -y remove containerd.io
 sudo apt-get -y remove docker-ce-rootless-extras
 sudo apt-get -y remove docker-scan-plugin
 sudo apt-get -y remove cri-tools
+sudo apt-get -y remove golang
+sudo apt-get -y remove libvirt
 sudo apt -y autoremove
 
 
