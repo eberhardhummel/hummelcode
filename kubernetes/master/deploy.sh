@@ -14,7 +14,7 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] 
 sudo apt-get update
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
 sudo apt-get update
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
 sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo cp daemon.json /etc/docker/daemon.json
