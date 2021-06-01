@@ -5,33 +5,6 @@
 #add nopasswd
 #service ssh restart
 
-#tear down
-echo "start tear down"
-kubectl delete clusterrolebinding kubernetes-dashboard-anonymous
-kubectl drain kube-master --ignore-daemonsets --delete-emptydir-data
-systemctl stop kubelet
-kubectl delete node kube-master
-kubectl delete node kube-slave
-kubectl -n kubernetes-dashboard delete pod,svc --all
-kubectl -n kube-system delete pod,svc --all
-sudo apt-get -y remove kubelet
-sudo apt-get -y remove kubernetes-cni
-sudo apt-get -y remove kubectl
-sudo apt-get -y remove kubernetes
-sudo apt-get -y remove kubeadm
-sudo apt-get -y remove docker-ce
-sudo apt-get -y remove docker-ce-cli
-sudo apt-get -y remove containerd.io
-sudo apt-get -y remove docker-ce-rootless-extras
-sudo apt-get -y remove docker-scan-plugin
-sudo apt-get -y remove cri-tools
-sudo apt-get -y remove golang
-sudo apt-get -y remove libvirt
-sudo apt -y autoremove
-sudo rm -rf /etc/kubernetes
-
-exit 0
-
 #build up
 echo "Start build up"
 sudo apt-get update
@@ -85,8 +58,34 @@ kubectl create -f ./create-namespace.yaml
 kubectl apply -f hello-world-container-deployment.yaml
 kubectl apply -f deploy-pod.yaml
 kubectl rollout restart deployment kube-master
+exit 0
 
+#tear down
+echo "start tear down"
+kubectl delete clusterrolebinding kubernetes-dashboard-anonymous
+kubectl drain kube-master --ignore-daemonsets --delete-emptydir-data
+systemctl stop kubelet
+kubectl delete node kube-master
+kubectl delete node kube-slave
+kubectl -n kubernetes-dashboard delete pod,svc --all
+kubectl -n kube-system delete pod,svc --all
+sudo apt-get -y remove kubelet
+sudo apt-get -y remove kubernetes-cni
+sudo apt-get -y remove kubectl
+sudo apt-get -y remove kubernetes
+sudo apt-get -y remove kubeadm
+sudo apt-get -y remove docker-ce
+sudo apt-get -y remove docker-ce-cli
+sudo apt-get -y remove containerd.io
+sudo apt-get -y remove docker-ce-rootless-extras
+sudo apt-get -y remove docker-scan-plugin
+sudo apt-get -y remove cri-tools
+sudo apt-get -y remove golang
+sudo apt-get -y remove libvirt
+sudo apt -y autoremove
+sudo rm -rf /etc/kubernetes
 
+exit 0
 
 
 
