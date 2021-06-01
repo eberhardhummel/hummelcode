@@ -54,6 +54,10 @@ sudo kubeadm init --apiserver-advertise-address=192.168.253.170
 
 #install weave networking
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+#install flannel networking
+#wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
 export KUBECONFIG=/etc/kubernetes/admin.conf
 kubectl cluster-info
 kubectl get pods --all-namespaces
