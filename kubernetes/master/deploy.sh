@@ -32,6 +32,8 @@ sudo apt-get update
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo cp daemon.json /etc/docker/daemon.json
+sudo systemctl restart docker
 sudo snap list
 sudo apt purge snapd
 sudo swapoff -a
