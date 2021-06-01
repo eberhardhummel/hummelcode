@@ -6,6 +6,7 @@
 #service ssh restart
 
 #tear down
+echo "start tear down"
 kubectl delete clusterrolebinding kubernetes-dashboard-anonymous
 kubectl drain kube-master --ignore-daemonsets --delete-emptydir-data
 systemctl stop kubelet
@@ -19,9 +20,9 @@ sudo apt-get -y remove kubernetes
 sudo apt-get -y remove docker-ce
 sudo apt-get -y remove docker-ce-cli
 sudo apt-get -y remove containerd.io
-exit 0
 
 #build up
+echo "Start build up"
 sudo apt-get install -y golang
 sudo apt-get install -y libvirt-bin
 sudo apt-get install -y libvirt
