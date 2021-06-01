@@ -84,6 +84,7 @@ sudo apt-get -y remove golang
 sudo apt-get -y remove libvirt
 sudo apt -y autoremove
 sudo rm -rf /etc/kubernetes
+sudo rm -rf /var/lib/docker
 
 exit 0
 
