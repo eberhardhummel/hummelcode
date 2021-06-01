@@ -38,7 +38,6 @@ sudo apt-get update
 sudo apt-get install -y kubernetes
 sudo apt-get install -y kubectl
 sudo apt-get install -y kubeadm
-sudo apt-get install -y kubelet
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
 sudo kubeadm init --apiserver-advertise-address=192.168.253.195
