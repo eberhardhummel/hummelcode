@@ -22,24 +22,27 @@ sudo apt-get -y remove containerd.io
 exit 0
 
 #build up
-sudo apt-get install libvirt-bin
-sudo apt-get install libvirt
-echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get install -y golang
+sudo apt-get install -y libvirt-bin
+sudo apt-get install -y libvirt
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
 sudo apt-get update
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-sudo apt-get install     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo snap list
 sudo apt purge snapd
-sudo apt-get install kubernetes
-sudo apt-get install kubectl
 sudo swapoff -a
-sudo apt-get update && sudo apt-get install -y apt-transport-https
+sudo apt-get update
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
-sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get update 
+sudo apt-get install -y kubernetes
+sudo apt-get install -y kubectl
+sudo apt-get install -y kubeadm
+sudo apt-get install -y kubelet
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
 sudo kubeadm init --apiserver-advertise-address=192.168.253.170
