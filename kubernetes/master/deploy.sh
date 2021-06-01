@@ -26,7 +26,6 @@ systemctl stop docker
 echo "starting docker service"
 systemctl start docker
 
-exit 0
 #sudo snap list
 #sudo apt purge snapd
 sudo swapoff -a
@@ -40,7 +39,14 @@ sudo apt-get install -y kubectl
 sudo apt-get install -y kubeadm
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
-sudo kubeadm init --apiserver-advertise-address=192.168.253.195
+ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+sudo kubeadm init --apiserver-advertise-address=$ipaddress
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 #install weave networking
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -48,17 +54,19 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 #install flannel networking
 #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-export KUBECONFIG=/etc/kubernetes/admin.conf
+
 
 #install dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
-kubectl proxy
+#kubectl proxy
 
 kubectl apply -f kubernetes-dashboard-anonymous.yaml
 kubectl create -f ./create-namespace.yaml
 kubectl apply -f hello-world-container-deployment.yaml
 kubectl apply -f deploy-pod.yaml
 kubectl rollout restart deployment kube-master
+
+sleep 60 
 
 kubectl cluster-info
 kubectl get namespaces
