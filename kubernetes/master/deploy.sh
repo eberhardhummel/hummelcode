@@ -20,7 +20,7 @@ sudo apt-get -y remove kubernetes
 sudo apt-get -y remove docker-ce
 sudo apt-get -y remove docker-ce-cli
 sudo apt-get -y remove containerd.io
-sudo apt autoremove
+sudo apt -y autoremove
 
 #build up
 echo "Start build up"
