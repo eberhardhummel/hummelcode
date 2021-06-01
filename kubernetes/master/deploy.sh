@@ -83,8 +83,8 @@ sudo apt-get -y remove cri-tools
 sudo apt-get -y remove golang
 sudo apt-get -y remove libvirt
 sudo apt -y autoremove
-sudo rm -rf /etc/kubernetes
-sudo rm -rf /var/lib/docker
+sudo rm -rf /etc/kubernetes/*
+sudo rm -rf /var/lib/docker/*
 sudo rm -rf /root/.kube/*
 exit 0
 
