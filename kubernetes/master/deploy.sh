@@ -86,6 +86,7 @@ sudo apt -y autoremove
 sudo rm -rf /etc/kubernetes/*
 sudo rm -rf /var/lib/docker/*
 sudo rm -rf /root/.kube/*
+sudo rm -rf /var/lib/etcd/*
 exit 0
 
 
