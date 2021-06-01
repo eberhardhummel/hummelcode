@@ -39,6 +39,7 @@ sudo systemctl restart docker
 sudo snap list
 sudo apt purge snapd
 sudo swapoff -a
+sudo ufw disable
 sudo apt-get update
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
