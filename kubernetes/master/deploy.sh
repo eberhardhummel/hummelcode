@@ -54,6 +54,7 @@ kubectl apply -f deploy-pod.yaml
 kubectl rollout restart deployment kube-master
 
 kubectl cluster-info
+kubectl get namespaces
 kubectl get pods --all-namespaces
 kubectl get nodes --all-namespaces
 kubectl describe node kube-master
