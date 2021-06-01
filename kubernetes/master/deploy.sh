@@ -33,7 +33,7 @@ sudo apt-get install -y kubeadm
 sudo apt-get install -y kubelet
 sudo systemctl enable kubelet
 sudo systemctl start kubelet
-sudo kubeadm init --apiserver-advertise-address=192.168.253.170
+sudo kubeadm init --apiserver-advertise-address=192.168.253.195
 
 #install weave networking
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
