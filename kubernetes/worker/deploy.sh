@@ -44,7 +44,7 @@ sudo systemctl start kubelet
 
 #grep the following command from the master node deploy script
 #kubeadm join master:6443 --token oefhp7.js7ggsgvm1c8sadr 	--discovery-token-ca-cert-hash sha256:cde6e1350c21510b712699d4fd4c73bfbc77da8d120694fbc8bbe8a1d34790be 
-scp root@master:/root/kubeadmin-init.log .
+sshpass -p $(cat .password) scp root@master:/root/kubeadmin-init.log .
 tail -n 2 kubeadmin-init.log > kubeadmin-worker-join.sh
 chmod a+x kubeadmin-worker-join.sh
 ./kubeadmin-worker-join.sh
