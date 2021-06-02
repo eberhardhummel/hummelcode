@@ -6,6 +6,7 @@
 #sudo apt purge snapd
 #sudo snap remove snap-store
 echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get install -y sshpass
 sudo apt-get install -y curl
 url -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 sudo apt-get update
@@ -40,8 +41,13 @@ docker info
 sudo kubeadm reset
 udo systemctl enable kubelet
 sudo systemctl start kubelet
+
 #grep the following command from the master node deploy script
 #kubeadm join master:6443 --token oefhp7.js7ggsgvm1c8sadr 	--discovery-token-ca-cert-hash sha256:cde6e1350c21510b712699d4fd4c73bfbc77da8d120694fbc8bbe8a1d34790be 
+scp root@master:/root/kubeadmin-init.log .
+tail -n 2 kubeadmin-init.log > kubeadmin-worker-join.sh
+chmod a+x kubeadmin-worker-join.sh
+./kubeadmin-worker-join.sh
 
 #teardown
 
