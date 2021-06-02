@@ -9,8 +9,8 @@
 function buildup {
 
   echo "Start build up"
-  sudo apt-get update
-  sudo apt-get install -y golang
+  #sudo apt-get update
+  #sudo apt-get install -y golang
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get update
   sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
@@ -42,7 +42,9 @@ function buildup {
   sudo systemctl enable kubelet
   sudo systemctl start kubelet
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+  echo "ipaddress is: " $ipaddress
   sudo kubeadm init --apiserver-advertise-address=$ipaddress
+  echo "finished kubeadm init"
 
   export KUBECONFIG=/etc/kubernetes/admin.conf
 
@@ -100,8 +102,8 @@ function teardown {
   sudo apt-get -y remove docker-ce-rootless-extras
   sudo apt-get -y remove docker-scan-plugin
   sudo apt-get -y remove cri-tools
-  sudo apt-get -y remove golang
-  sudo apt-get -y remove libvirt
+  #sudo apt-get -y remove golang
+  #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
   sudo rm -rf /etc/kubernetes/*
   sudo rm -rf /var/lib/docker/*
