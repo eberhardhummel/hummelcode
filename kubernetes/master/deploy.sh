@@ -20,7 +20,7 @@ function buildup {
   sudo apt-get install -y docker-ce 
   sudo cp daemon.json /etc/docker/daemon.json
   #sudo systemctl restart docker
-  echo "sleeping for 60 seconds"
+  echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
   echo "stopping docker service"
   systemctl stop docker
@@ -43,6 +43,7 @@ function buildup {
   sudo apt-get install -y kubeadm
   sudo systemctl enable kubelet
   sudo systemctl start kubelet
+  echo "sleeping for 45 seconds to let kublet finish starting"
   sleep 45
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
   echo "ipaddress is: " $ipaddress
