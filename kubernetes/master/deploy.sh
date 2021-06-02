@@ -110,7 +110,7 @@ function teardown {
   sudo rm -rf /var/lib/docker/*
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
-  sudo rm -rd /var/lib/kublet/*
+  sudo rm -rd /var/lib/kubelet/*
 }
 
 
