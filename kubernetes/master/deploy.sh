@@ -45,7 +45,8 @@ function buildup {
   echo "ipaddress is: " $ipaddress
   sudo kubeadm init --apiserver-advertise-address=$ipaddress
   echo "finished kubeadm init"
-
+  exit 0
+  
   export KUBECONFIG=/etc/kubernetes/admin.conf
 
   mkdir -p $HOME/.kube
