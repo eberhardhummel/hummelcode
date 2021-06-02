@@ -27,6 +27,8 @@ function buildup {
   echo "starting docker service"
   systemctl start docker
   docker info
+  docker ps -a
+  docker images
   
   #sudo snap list
   #sudo apt purge snapd
