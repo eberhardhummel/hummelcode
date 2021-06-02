@@ -23,7 +23,8 @@ function buildup {
   sudo apt-get update
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
   sudo apt-get update
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  #sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+  sudo apt-get install -y docker-ce
   apt-cache madison docker-ce
   sudo cp daemon.json /etc/docker/daemon.json
   #sudo systemctl restart docker
