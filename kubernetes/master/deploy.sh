@@ -44,7 +44,7 @@ function buildup {
   sleep 45
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
   echo "ipaddress is: " $ipaddress
-  sudo kubeadm init --apiserver-advertise-address=$ipaddress
+  sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
   echo "finished kubeadm init"
   
   
