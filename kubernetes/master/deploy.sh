@@ -108,6 +108,7 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
+  #umount /var/lib/kubelet/pods/c7a19188-69b0-4014-adb4-788559ce5b1f/volumes/kubernetes.io~projected/kube-api-access-cf2vs
 }
 
 
