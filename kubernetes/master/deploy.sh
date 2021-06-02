@@ -17,7 +17,6 @@ function buildup {
   sudo apt-get update
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
-  #sudo apt-get install -y docker-ce docker-ce-cli containerd.io
   sudo apt-get install -y docker-ce 
   sudo cp daemon.json /etc/docker/daemon.json
   #sudo systemctl restart docker
@@ -27,7 +26,8 @@ function buildup {
   systemctl stop docker
   echo "starting docker service"
   systemctl start docker
-
+  docker info
+  
   #sudo snap list
   #sudo apt purge snapd
   sudo swapoff -a
@@ -41,17 +41,19 @@ function buildup {
   sudo apt-get install -y kubeadm
   sudo systemctl enable kubelet
   sudo systemctl start kubelet
+  sleep 45
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
   echo "ipaddress is: " $ipaddress
   sudo kubeadm init --apiserver-advertise-address=$ipaddress
   echo "finished kubeadm init"
-  exit 0
+  
   
   export KUBECONFIG=/etc/kubernetes/admin.conf
 
-  mkdir -p $HOME/.kube
-  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+  #only for running as non-root 
+  #mkdir -p $HOME/.kube
+  #sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  #sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
   #install weave networking
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -98,11 +100,6 @@ function teardown {
   sudo apt-get -y remove kubernetes
   sudo apt-get -y remove kubeadm
   sudo apt-get -y remove docker-ce
-  sudo apt-get -y remove docker-ce-cli
-  sudo apt-get -y remove containerd.io
-  sudo apt-get -y remove docker-ce-rootless-extras
-  sudo apt-get -y remove docker-scan-plugin
-  sudo apt-get -y remove cri-tools
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
