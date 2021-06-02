@@ -114,7 +114,7 @@ function teardown {
 
 if [ -z "$1" ]
 then
-  echo "missing parameter build or teardown"
+  echo "missing parameter buildup or teardown"
   exit 1
 fi
 
