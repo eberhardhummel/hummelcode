@@ -117,7 +117,7 @@ then
 fi
 
 case $1 in
-  build)
+  buildup)
     buildup
     exit 0
     ;;
