@@ -5,27 +5,6 @@
 #add nopasswd
 #service ssh restart
 
-if [ -z "$1" ]
-then
-  echo "missing parameter build or teardown"
-  exit 1
-fi
-
-case $1 in
-  build)
-    buildup
-    exit 0
-    ;;
-  teardown)
-    teardown
-    exit 0
-    ;;
-  *)
-    echo "invalid parameter, exit"
-    exit 1
-    ;;
-esac
-
 #build up
 function buildup {
 
@@ -129,5 +108,28 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
 }
+
+
+if [ -z "$1" ]
+then
+  echo "missing parameter build or teardown"
+  exit 1
+fi
+
+case $1 in
+  build)
+    buildup
+    exit 0
+    ;;
+  teardown)
+    teardown
+    exit 0
+    ;;
+  *)
+    echo "invalid parameter, exit"
+    exit 1
+    ;;
+esac
+
 
 
