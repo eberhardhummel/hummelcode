@@ -12,7 +12,6 @@
 
 #build up
 function buildup {
-
   echo "Start build up"
   echo   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get install -y sshpass
@@ -31,7 +30,6 @@ function buildup {
   systemctl stop docker
   echo "starting docker service"
   systemctl start docker
-
   docker ps -a
   sudo swapoff -a
   sudo ufw disable
@@ -42,8 +40,6 @@ function buildup {
   sudo systemctl start kubelet
   echo "sleeping for 60 seconds to let kubelet finish installing"
   sleep 60
-  #grep the following command from the master node deploy script
-  #kubeadm join master:6443 --token oefhp7.js7ggsgvm1c8sadr 	--discovery-token-ca-cert-hash sha256:cde6e1350c21510b712699d4fd4c73bfbc77da8d120694fbc8bbe8a1d34790be 
   sshpass -p $(cat .password) scp root@master:/root/kubeadmin-init.log .
   tail -n 2 kubeadmin-init.log > kubeadmin-worker-join.sh
   echo "kubeadmin-worker-join.sh is: " 
@@ -62,13 +58,11 @@ function teardown {
   kubectl delete node kube-slave
   kubectl drain kube-worker --ignore-daemonsets --delete-local-data
   kubectl delete node kube-worker
-  
   kubectl cluster info
   systemctl stop kubelet
   kubectl delete node kube-slave
   kubectl -n kubernetes-dashboard delete pod,svc --all
   kubectl -n kube-system delete pod,svc --all
-  
   sudo apt-get -y remove kubelet
   sudo apt-get -y remove kubernetes-cni
   sudo apt-get -y remove kubectl
@@ -82,7 +76,6 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
-  #umount /var/lib/kubelet/pods/c7a19188-69b0-4014-adb4-788559ce5b1f/volumes/kubernetes.io~projected/kube-api-access-cf2vs
 }
 
 if [ -z "$1" ]
