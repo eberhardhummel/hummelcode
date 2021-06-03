@@ -93,7 +93,12 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
-  sudo umount /var/lib/kubelet/pods/*
+  #sudo umount /var/lib/kubelet/pods/*
+  rm -r /tmp/umount.txt
+  mount -l | grep "/var/lib/kubelet/pods/" > /tmp/umount.txt
+  #sed 's^tmpfs on ^^g' |  sed 's^ tmpfs (rw,relatime,inode64)^^g' | /tmp/umount.txt
+  sed 's^tmpfs on ^umount ^g; s^ tmpfs (rw,relatime,inode64)^^g' /tmp/umount.txt > kubmounts.txt
+  
 }
 
 if [ -z "$1" ]
