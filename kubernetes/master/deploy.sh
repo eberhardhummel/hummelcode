@@ -98,7 +98,8 @@ function teardown {
   mount -l | grep "/var/lib/kubelet/pods/" > /tmp/umount.txt
   #sed 's^tmpfs on ^^g' |  sed 's^ tmpfs (rw,relatime,inode64)^^g' | /tmp/umount.txt
   sed 's^tmpfs on ^umount ^g; s^ type tmpfs (rw,relatime,inode64)^^g' /tmp/umount.txt > kubmounts.txt
-  
+  source ./kubmounts.txt
+  echo "list of mounts is: " $(mount -l)
 }
 
 if [ -z "$1" ]
