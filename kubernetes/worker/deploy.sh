@@ -40,20 +40,19 @@ function buildup {
   sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
   sudo systemctl enable kubelet
   sudo systemctl start kubelet
-  
+  echo "sleeping for 60 seconds to let kubelet finish installing"
+  sleep 60
   #grep the following command from the master node deploy script
   #kubeadm join master:6443 --token oefhp7.js7ggsgvm1c8sadr 	--discovery-token-ca-cert-hash sha256:cde6e1350c21510b712699d4fd4c73bfbc77da8d120694fbc8bbe8a1d34790be 
   sshpass -p $(cat .password) scp root@master:/root/kubeadmin-init.log .
   tail -n 2 kubeadmin-init.log > kubeadmin-worker-join.sh
+  echo "kubeadmin-worker-join.sh is: " 
+  cat kubeadmin-worker-join.sh
   chmod a+x kubeadmin-worker-join.sh
   ./kubeadmin-worker-join.sh
-  #kubeadm join master:6443 --token 54imxs.qj3cjf5wdz0c5xnr 	--discovery-token-ca-cert-hash sha256:0e4dd6334ed96c27ac72a7320b4f06dbaa7f780fe01ac4c50e34044a6c735d61
   kubectl cluster-info
   kubectl cluster-info dump
-  sudo cp daemon.json /etc/docker/daemon.json
-  sudo systemctl restart docker
   docker info
-
 }
 
 #teardown
