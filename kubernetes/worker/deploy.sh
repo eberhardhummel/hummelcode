@@ -22,10 +22,7 @@ function buildup {
   sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
   sudo apt-get update
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
-  sudo apt-get update
-  #sudo apt-get install -y docker-ce docker-ce-cli containerd.io
   sudo apt-get install -y docker-ce
-  apt-cache madison docker-ce
   sudo cp daemon.json /etc/docker/daemon.json
   #sudo systemctl restart docker
   echo "sleeping for 60 seconds to let docker finish installing"
@@ -34,12 +31,10 @@ function buildup {
   systemctl stop docker
   echo "starting docker service"
   systemctl start docker
-  sudo apt-get update
-  sudo apt-get install -y containerd.io
-  sudo service docker start
-  sudo apt-get install kubernetes
+
   docker ps -a
   sudo swapoff -a
+  sudo ufw disable
   curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
   sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
   sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
@@ -58,10 +53,6 @@ function buildup {
   sudo cp daemon.json /etc/docker/daemon.json
   sudo systemctl restart docker
   docker info
-  sudo kubeadm reset
-  sudo systemctl enable kubelet
-  sudo systemctl start kubelet
-
 
 }
 
