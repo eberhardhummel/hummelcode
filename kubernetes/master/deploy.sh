@@ -19,7 +19,6 @@ function buildup {
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
   sudo apt-get install -y docker-ce 
   sudo cp daemon.json /etc/docker/daemon.json
-  #sudo systemctl restart docker
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
   echo "stopping docker service"
@@ -29,9 +28,6 @@ function buildup {
   docker info
   docker ps -a
   docker images
-  
-  #sudo snap list
-  #sudo apt purge snapd
   sudo swapoff -a
   sudo ufw disable
   sudo apt-get update
@@ -49,14 +45,7 @@ function buildup {
   echo "ipaddress is: " $ipaddress
   sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
   echo "finished kubeadm init"
-  
-  
   export KUBECONFIG=/etc/kubernetes/admin.conf
-
-  #only for running as non-root 
-  #mkdir -p $HOME/.kube
-  #sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  #sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
   #install weave networking
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
@@ -64,20 +53,14 @@ function buildup {
   #install flannel networking
   #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
-
-
   #install dashboard
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
-  #kubectl proxy
-
   kubectl apply -f kubernetes-dashboard-anonymous.yaml
   kubectl create -f ./create-namespace.yaml
   kubectl apply -f hello-world-container-deployment.yaml
   kubectl apply -f deploy-pod.yaml
   kubectl rollout restart deployment kube-master
-
   sleep 60 
-
   kubectl cluster-info
   kubectl get namespaces
   kubectl get pods --all-namespaces
@@ -85,7 +68,6 @@ function buildup {
   kubectl describe node kube-master
   kubectl get services --all-namespaces
   kubectl get deployments --all-namespaces
-
 }
 
 function teardown {
@@ -111,9 +93,8 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
-  #umount /var/lib/kubelet/pods/c7a19188-69b0-4014-adb4-788559ce5b1f/volumes/kubernetes.io~projected/kube-api-access-cf2vs
+  sudo umount /var/lib/kubelet/pods/*
 }
-
 
 if [ -z "$1" ]
 then
