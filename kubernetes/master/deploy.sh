@@ -17,6 +17,8 @@ function buildup {
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
   sudo apt-get install -y docker-ce 
+  sudo service docker status
+  exit 0
   sudo cp daemon.json /etc/docker/daemon.json
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
