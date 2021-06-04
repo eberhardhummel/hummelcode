@@ -11,14 +11,14 @@ function buildup {
   echo "Start build up"
   #sudo apt-get update
   #sudo apt-get install -y golang
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
   sudo apt-get update
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
-  sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
-  echo "available docker version: "
+  sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
+  #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
+  #echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
   sudo apt-cache madison docker-ce
-  sudo systemctl restart systemd-networkd.service
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
   sudo systemctl restart systemd-networkd.service 
