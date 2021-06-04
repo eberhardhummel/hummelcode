@@ -21,17 +21,17 @@ function buildup {
   sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
-  sudo systemctl restart systemd-networkd.service 
-  sudo systemctl start docker.service
+  #sudo systemctl restart systemd-networkd.service 
+  #sudo systemctl start docker.service
   #sudo service docker status
-  exit 0
-  sudo cp daemon.json /etc/docker/daemon.json
-  echo "sleeping for 60 seconds to let docker finish installing"
+    echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
+  sudo cp daemon.json /etc/docker/daemon.json
   echo "stopping docker service"
   systemctl stop docker
   echo "starting docker service"
   systemctl start docker
+  sudo service docker status
   docker info
   docker ps -a
   docker images
