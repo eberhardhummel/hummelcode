@@ -18,11 +18,12 @@ function buildup {
   sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg     lsb-release
   echo "available docker version: "
   sudo apt-cache madison docker-ce
+  sudo systemctl restart systemd-networkd.service
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
-  systemctl restart systemd-networkd.service 
-  systemctl start docker.service
-  sudo service docker status
+  sudo systemctl restart systemd-networkd.service 
+  sudo systemctl start docker.service
+  #sudo service docker status
   exit 0
   sudo cp daemon.json /etc/docker/daemon.json
   echo "sleeping for 60 seconds to let docker finish installing"
