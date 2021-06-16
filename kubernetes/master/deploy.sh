@@ -56,10 +56,11 @@ function buildup {
 
   #install weave networking
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-
+  echo "finished installing weave networking"
   #install flannel networking
   #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-
+  exit 0
+  
   #install dashboard
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
   kubectl apply -f kubernetes-dashboard-anonymous.yaml
