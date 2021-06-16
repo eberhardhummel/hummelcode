@@ -58,8 +58,11 @@ function buildup {
   cp /etc/kubernetes/admin.conf ~/.kube/config
   
   #install weave networking
+  echo "installing weave networking..."
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-  echo "finished installing weave networking"
+  
+  exit 0
+  
   #install flannel networking
   #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
   
@@ -78,6 +81,7 @@ function buildup {
   kubectl describe node kube-master
   kubectl get services --all-namespaces
   kubectl get deployments --all-namespaces
+  lsof -i -P -n | grep 8080
 }
 
 function teardown {
