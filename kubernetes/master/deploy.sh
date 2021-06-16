@@ -50,10 +50,12 @@ function buildup {
   sleep 45
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
   echo "ipaddress is: " $ipaddress
-  #export KUBECONFIG=/etc/kubernetes/admin.conf
-  cp /etc/kubernetes/admin.conf ~/.kube/config
+  
   sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
   echo "finished kubeadm init"
+  
+  #export KUBECONFIG=/etc/kubernetes/admin.conf
+  cp /etc/kubernetes/admin.conf ~/.kube/config
   
   #install weave networking
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
