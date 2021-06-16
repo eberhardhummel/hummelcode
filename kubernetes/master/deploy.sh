@@ -50,16 +50,16 @@ function buildup {
   sleep 45
   ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
   echo "ipaddress is: " $ipaddress
+  #export KUBECONFIG=/etc/kubernetes/admin.conf
+  cp /etc/kubernetes/admin.conf ~/.kube/config
   sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
   echo "finished kubeadm init"
-  export KUBECONFIG=/etc/kubernetes/admin.conf
-
+  
   #install weave networking
   kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
   echo "finished installing weave networking"
   #install flannel networking
   #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-  exit 0
   
   #install dashboard
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
