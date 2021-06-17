@@ -22,9 +22,6 @@ function buildup {
   echo "running sudo apt-get install -y docker-io"
   sudo apt-get install -y docker-io 
   echo "systemctl status docker.service..."
-  systemctl status docker.service
-  journalctl -xu docker-install.service
-  exit 0
   
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
