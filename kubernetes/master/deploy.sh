@@ -27,8 +27,9 @@ function buildup {
   sudo cp daemon.json /etc/docker/daemon.json
   echo "stopping docker service"
   systemctl stop docker
+  sudo service docker stop
   echo "starting docker service"
-  systemctl start docker
+  sudo service docker start
   sudo service docker status
   docker info
   docker ps -a
