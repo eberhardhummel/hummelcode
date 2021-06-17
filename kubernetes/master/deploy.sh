@@ -110,6 +110,8 @@ function teardown {
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
+  sudo rm -f /etc/systemd/system/kubelet.service
+  sudo rm -f /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
   #sudo umount /var/lib/kubelet/pods/*
   rm -r /tmp/umount.txt
   mount -l | grep "/var/lib/kubelet/pods/" > /tmp/umount.txt
