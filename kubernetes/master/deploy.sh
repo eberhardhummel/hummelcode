@@ -105,8 +105,13 @@ function teardown {
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
-  sudo rm -rf /etc/kubernetes/*
-  sudo rm -rf /var/lib/docker/*
+  sudo rm -rf /etc/kubernetes
+  sudo rm -rf /var/lib/docker
+  sudo rm -rf /etc/docker
+  sudo rm -f /etc/init.d/docker
+  sudo rm -f /etc/default/docker
+  sudo rm -f /usr/bin/docker
+  sudo rm -rf /run/docker*
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
   sudo rm -rd /var/lib/kubelet/*
