@@ -102,6 +102,7 @@ function teardown {
   sudo apt-get -y remove kubernetes
   sudo apt-get -y remove kubeadm
   sudo apt-get -y remove docker-ce
+  sudo apt-get -y remove docker.io
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
