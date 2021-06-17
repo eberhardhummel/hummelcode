@@ -19,7 +19,7 @@ function buildup {
 
 
   sudo apt-cache madison docker-ce
-  echo "running sudo apt-get install -y docker-ce"
+  echo "running sudo apt-get install -y docker-io"
   sudo apt-get install -y docker-io 
   echo "systemctl status docker.service..."
   systemctl status docker.service
