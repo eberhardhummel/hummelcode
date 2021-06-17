@@ -19,6 +19,8 @@ function buildup {
   sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
+  echo "systemctl status docker.service..."
+  systemctl status docker.service
   exit 0
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
