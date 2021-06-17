@@ -16,13 +16,16 @@ function buildup {
   sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
+
+
   sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
   echo "systemctl status docker.service..."
   systemctl status docker.service
-  journalctl -xe
+  journalctl -xu docker-install.service
   exit 0
+  
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
   sudo cp daemon.json /etc/docker/daemon.json
