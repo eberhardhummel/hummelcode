@@ -21,6 +21,7 @@ function buildup {
   sudo apt-get install -y docker-ce 
   echo "systemctl status docker.service..."
   systemctl status docker.service
+  journalctl -xe
   exit 0
   echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
