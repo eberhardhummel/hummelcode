@@ -14,17 +14,12 @@ function buildup {
   sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
   sudo apt-get update
   sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
-  #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
-  #echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
   sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker-ce"
   sudo apt-get install -y docker-ce 
-  #sudo systemctl restart systemd-networkd.service 
-  #sudo systemctl start docker.service
-  #sudo service docker status
-    echo "sleeping for 60 seconds to let docker finish installing"
+  echo "sleeping for 60 seconds to let docker finish installing"
   sleep 60
   sudo cp daemon.json /etc/docker/daemon.json
   echo "stopping docker service"
@@ -38,11 +33,15 @@ function buildup {
   sudo swapoff -a
   sudo ufw disable
   sudo apt-get update
-  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
+  #curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  #sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
+  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update 
-  sudo apt-get install -y kubernetes
   sudo apt-get install -y kubectl
+  exit 0
+  
+  sudo apt-get install -y kubernetes
   sudo apt-get install -y kubeadm
   sudo systemctl enable kubelet
   sudo systemctl start kubelet
