@@ -34,6 +34,7 @@ function buildup {
   docker info
   docker ps -a
   docker images
+  exit 0
   sudo swapoff -a
   sudo ufw disable
   sudo apt-get update
@@ -43,7 +44,7 @@ function buildup {
   echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
   sudo apt-get update 
   sudo apt-get install -y kubectl
-  exit 0
+  
   
   sudo apt-get install -y kubernetes
   sudo apt-get install -y kubeadm
