@@ -30,7 +30,7 @@ function buildup {
   sudo service docker stop
   sleep 10
   echo "starting docker service"
-  service docker start
+  sudo service docker start
   #sudo service docker status
   sleep 10
   docker info
