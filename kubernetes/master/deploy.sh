@@ -31,14 +31,33 @@ function buildup {
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
 
   #sudo apt-cache madison docker-ce
-  echo "running sudo apt-get install -y docker.io"
-  sudo apt-get install -y docker.io 
+  echo "running sudo apt-get install -y docker.ce"
+  sudo apt-get install -y docker.ce 
   
   echo "sleeping for 30 seconds to let docker finish installing"
   sleep 30
   sudo cp daemon.json /etc/docker/daemon.json
-  echo "stopping docker service"
-  systemctl stop docker
+  echo "1st restart..."
+  sudo service docker stop
+  sleep 10
+  echo "starting docker service"
+  sudo service docker start
+  #sudo service docker status
+  sleep 10
+  docker info
+  docker ps -a
+  docker images
+  echo "2nd restart..."
+  sudo service docker stop
+  sleep 10
+  echo "starting docker service"
+  sudo service docker start
+  #sudo service docker status
+  sleep 10
+  docker info
+  docker ps -a
+  docker images
+  echo "3rd restart..."
   sudo service docker stop
   sleep 10
   echo "starting docker service"
