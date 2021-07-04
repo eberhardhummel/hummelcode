@@ -28,9 +28,11 @@ function buildup {
   echo "stopping docker service"
   systemctl stop docker
   sudo service docker stop
+  sleep 10
   echo "starting docker service"
-  sudo service docker start
+  service docker start
   #sudo service docker status
+  sleep 10
   docker info
   docker ps -a
   docker images
