@@ -136,6 +136,8 @@ function teardown {
   sudo apt-get -y remove docker-ce
   sudo apt-get -y remove docker.io
   sudo apt-get -y remove docker-scan-plugin
+  sudo apt-get -y docker-ce-cli
+  sudo apt-get -y docker-ce-rootless-extras
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
