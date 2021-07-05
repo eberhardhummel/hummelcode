@@ -31,7 +31,7 @@ function buildup {
   
   echo "sleeping for 30 seconds to let docker finish installing"
   sleep 30
-  cp daemon.json /etc/docker/daemon.json
+  sudo cp daemon.json /etc/docker/daemon.json
   echo "1st restart..."
   sudo service docker stop
   sleep 30
