@@ -20,14 +20,16 @@ function buildup {
   #gpg --no-default-keyring --keyring ./docker-keyring.gpg --export > ./docker-asc.gpg
   #sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
   
-  sudo apt-get update
   #sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
   #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
-
+  sudo apt-get update
+  
   echo "running sudo apt-get install -y docker.io"
-  sudo apt-get install -y docker.io 
+  sudo apt-get install -y docker.io
+  sleep 5
   service docker start
+  sleep 5
   docker ps -a
   service docker stop
   echo "sleeping for 30 seconds..."
