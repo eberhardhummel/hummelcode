@@ -25,10 +25,11 @@ function buildup {
   #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
 
-  #sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker.io"
   sudo apt-get install -y docker.io 
-  
+  docker service start
+  docker ps -a
+  exit 0
   #echo "sleeping for 30 seconds to let docker finish installing"
   #sleep 30
   sudo mkdir /etc/docker
