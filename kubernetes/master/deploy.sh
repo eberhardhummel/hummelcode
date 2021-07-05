@@ -37,7 +37,7 @@ function buildup {
   sudo mkdir /etc/docker
   sudo cp ./daemon.json /etc/docker/daemon.json
   echo "starting docker service"
-  sudo service docker start
+  service docker start
   sleep 30
   docker info
   docker ps -a
