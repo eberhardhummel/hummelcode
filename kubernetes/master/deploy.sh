@@ -27,7 +27,7 @@ function buildup {
 
   echo "running sudo apt-get install -y docker.io"
   sudo apt-get install -y docker.io 
-  docker service start
+  service docker start
   docker ps -a
   exit 0
   #echo "sleeping for 30 seconds to let docker finish installing"
