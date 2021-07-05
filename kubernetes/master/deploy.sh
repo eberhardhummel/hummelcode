@@ -14,23 +14,18 @@ function buildup {
   
   #sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
   
-  sudo curl -LR https://download.docker.com/linux/ubuntu/gpg -o ./docker.gpg
-  #Verify the type of file
-  file ./docker.gpg
-  #it should be PGP public key block Public-Key (old)
-  #Create a keyring
-  gpg --no-default-keyring --keyring ./docker-keyring.gpg --import ./docker.gpg
-  #This file is still not a valid key that can be added to /etc/apt/trusted.gpg.d/ since it's a keyring, but from the keyring we can extract the key with
-  gpg --no-default-keyring --keyring ./docker-keyring.gpg --export > ./docker-asc.gpg
-  #This file is the key you want to move to the trusted key folder
-  sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
+  #sudo curl -LR https://download.docker.com/linux/ubuntu/gpg -o ./docker.gpg
+  #file ./docker.gpg
+  #gpg --no-default-keyring --keyring ./docker-keyring.gpg --import ./docker.gpg
+  #gpg --no-default-keyring --keyring ./docker-keyring.gpg --export > ./docker-asc.gpg
+  #sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
   
   sudo apt-get update
   #sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
   #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
 
-  sudo apt-cache madison docker-ce
+  #sudo apt-cache madison docker-ce
   echo "running sudo apt-get install -y docker.ce"
   sudo apt-get install -y docker.ce 
   
