@@ -29,10 +29,12 @@ function buildup {
   echo "running sudo apt-get install -y docker.ce"
   sudo apt-get install -y docker.ce 
   
-  echo "sleeping for 30 seconds to let docker finish installing"
-  sleep 30
+  #echo "sleeping for 30 seconds to let docker finish installing"
+  #sleep 30
   sudo mkdir /etc/docker
   sudo cp ./daemon.json /etc/docker/daemon.json
+  exit 0
+  
   echo "1st restart..."
   sudo service docker stop
   sleep 30
