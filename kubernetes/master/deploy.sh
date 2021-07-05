@@ -29,18 +29,13 @@ function buildup {
   sudo apt-get install -y docker.io 
   service docker start
   docker ps -a
-  exit 0
-  #echo "sleeping for 30 seconds to let docker finish installing"
-  #sleep 30
+  service docker stop
+  echo "sleeping for 30 seconds..."
+  sleep 30
   sudo mkdir /etc/docker
   sudo cp ./daemon.json /etc/docker/daemon.json
-  
-  echo "1st restart..."
-  sudo service docker stop
-  sleep 30
   echo "starting docker service"
   sudo service docker start
-  #sudo service docker status
   sleep 30
   docker info
   docker ps -a
