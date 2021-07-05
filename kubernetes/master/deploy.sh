@@ -132,6 +132,7 @@ function teardown {
   sudo apt-get -y remove kubeadm
   sudo apt-get -y remove docker-ce
   sudo apt-get -y remove docker.io
+  sudo apt-get -y remove docker-scan-plugin
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
@@ -145,9 +146,19 @@ function teardown {
   sudo rm -f /etc/apt/trusted.gpg.d/docker.gpg.asc
   sudo rm -rf /root/.kube/*
   sudo rm -rf /var/lib/etcd/*
-  sudo rm -rd /var/lib/kubelet/*
+  sudo rm -rf /var/lib/kubelet/*
   sudo rm -f /etc/systemd/system/kubelet.service
   sudo rm -f /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.service
+  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.socket
+  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.service
+  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.socket
+  sudo rm -rf /etc/apt/sources.list.d/docker.list
+  sudo rm -rf /etc/init/docker.conf
+  sudo rm -rf /etc/systemd/system/docker.socket
+  sudo rm -rf /etc/systemd/system/docker.service
+  sudo rm -rf /etc/systemd/system/sockets.target.wants/docker.socket
+  sudo rm -rf /etc/systemd/system/multi-user.target.wants/docker.service
   sudo apt-get update
   #sudo umount /var/lib/kubelet/pods/*
   rm -r /tmp/umount.txt
