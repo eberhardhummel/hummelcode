@@ -39,31 +39,31 @@ function buildup {
   sudo cp daemon.json /etc/docker/daemon.json
   echo "1st restart..."
   sudo service docker stop
-  sleep 10
+  sleep 30
   echo "starting docker service"
   sudo service docker start
   #sudo service docker status
-  sleep 10
+  sleep 30
   docker info
   docker ps -a
   docker images
   echo "2nd restart..."
   sudo service docker stop
-  sleep 10
+  sleep 30
   echo "starting docker service"
   sudo service docker start
   #sudo service docker status
-  sleep 10
+  sleep 30
   docker info
   docker ps -a
   docker images
   echo "3rd restart..."
   sudo service docker stop
-  sleep 10
+  sleep 30
   echo "starting docker service"
   sudo service docker start
   #sudo service docker status
-  sleep 10
+  sleep 30
   docker info
   docker ps -a
   docker images
