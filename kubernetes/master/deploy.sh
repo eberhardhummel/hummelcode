@@ -26,7 +26,7 @@ function buildup {
   sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
   
   sudo apt-get update
-  sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
+  #sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
   #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
 
@@ -36,7 +36,7 @@ function buildup {
   
   echo "sleeping for 30 seconds to let docker finish installing"
   sleep 30
-  sudo cp daemon.json /etc/docker/daemon.json
+  cp daemon.json /etc/docker/daemon.json
   echo "1st restart..."
   sudo service docker stop
   sleep 30
