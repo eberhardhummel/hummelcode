@@ -5,6 +5,62 @@
 #add nopasswd
 #service ssh restart
 
+#teardown
+function teardown {
+  echo "start tear down"
+  kubectl delete clusterrolebinding kubernetes-dashboard-anonymous
+  kubectl drain kube-master --ignore-daemonsets --delete-emptydir-data
+  systemctl stop kubelet
+  kubectl delete node kube-master
+  kubectl delete node kube-slave
+  kubectl -n kubernetes-dashboard delete pod,svc --all
+  kubectl -n kube-system delete pod,svc --all
+  sudo apt-get -y remove kubelet
+  sudo apt-get -y remove kubernetes-cni
+  sudo apt-get -y remove kubectl
+  sudo apt-get -y remove kubernetes
+  sudo apt-get -y remove kubeadm
+  sudo apt-get -y remove docker-ce
+  sudo apt-get -y remove docker.io
+  sudo apt-get -y remove docker-scan-plugin
+  sudo apt-get -y docker-ce-cli
+  sudo apt-get -y docker-ce-rootless-extras
+  #sudo apt-get -y remove golang
+  #sudo apt-get -y remove libvirt
+  sudo apt -y autoremove
+  sudo rm -rf /etc/kubernetes
+  sudo rm -rf /var/lib/docker
+  sudo rm -rf /etc/docker
+  sudo rm -f /etc/init.d/docker
+  sudo rm -f /etc/default/docker
+  sudo rm -f /usr/bin/docker
+  sudo rm -rf /run/docker*
+  sudo rm -f /etc/apt/trusted.gpg.d/docker.gpg.asc
+  sudo rm -rf /root/.kube/*
+  sudo rm -rf /var/lib/etcd/*
+  sudo rm -rf /var/lib/kubelet/*
+  sudo rm -f /etc/systemd/system/kubelet.service
+  sudo rm -f /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.service
+  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.socket
+  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.service
+  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.socket
+  sudo rm -rf /etc/apt/sources.list.d/docker.list
+  sudo rm -rf /etc/init/docker.conf
+  sudo rm -rf /etc/systemd/system/docker.socket
+  sudo rm -rf /etc/systemd/system/docker.service
+  sudo rm -rf /etc/systemd/system/sockets.target.wants/docker.socket
+  sudo rm -rf /etc/systemd/system/multi-user.target.wants/docker.service
+  sudo apt-get update
+  #sudo umount /var/lib/kubelet/pods/*
+  rm -r /tmp/umount.txt
+  mount -l | grep "/var/lib/kubelet/pods/" > /tmp/umount.txt
+  #sed 's^tmpfs on ^^g' |  sed 's^ tmpfs (rw,relatime,inode64)^^g' | /tmp/umount.txt
+  sed 's^tmpfs on ^umount ^g; s^ type tmpfs (rw,relatime,inode64)^^g' /tmp/umount.txt > kubmounts.txt
+  source ./kubmounts.txt
+  echo "list of mounts is: " $(mount -l)
+}
+
 #build up
 function buildup {
 
@@ -83,7 +139,9 @@ function buildup {
       echo "**********************************************************"
       echo "**********************************************************"
       echo "**********************************************************"
-      echo "**********************************************************" 
+      echo "**********************************************************"
+      echo "tearing down..."
+      teardown
     fi
     
     sudo swapoff -a
@@ -137,61 +195,6 @@ function buildup {
     #lsof -i -P -n | grep 8080
   done
 return
-}
-
-function teardown {
-  echo "start tear down"
-  kubectl delete clusterrolebinding kubernetes-dashboard-anonymous
-  kubectl drain kube-master --ignore-daemonsets --delete-emptydir-data
-  systemctl stop kubelet
-  kubectl delete node kube-master
-  kubectl delete node kube-slave
-  kubectl -n kubernetes-dashboard delete pod,svc --all
-  kubectl -n kube-system delete pod,svc --all
-  sudo apt-get -y remove kubelet
-  sudo apt-get -y remove kubernetes-cni
-  sudo apt-get -y remove kubectl
-  sudo apt-get -y remove kubernetes
-  sudo apt-get -y remove kubeadm
-  sudo apt-get -y remove docker-ce
-  sudo apt-get -y remove docker.io
-  sudo apt-get -y remove docker-scan-plugin
-  sudo apt-get -y docker-ce-cli
-  sudo apt-get -y docker-ce-rootless-extras
-  #sudo apt-get -y remove golang
-  #sudo apt-get -y remove libvirt
-  sudo apt -y autoremove
-  sudo rm -rf /etc/kubernetes
-  sudo rm -rf /var/lib/docker
-  sudo rm -rf /etc/docker
-  sudo rm -f /etc/init.d/docker
-  sudo rm -f /etc/default/docker
-  sudo rm -f /usr/bin/docker
-  sudo rm -rf /run/docker*
-  sudo rm -f /etc/apt/trusted.gpg.d/docker.gpg.asc
-  sudo rm -rf /root/.kube/*
-  sudo rm -rf /var/lib/etcd/*
-  sudo rm -rf /var/lib/kubelet/*
-  sudo rm -f /etc/systemd/system/kubelet.service
-  sudo rm -f /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.service
-  sudo rm -rf /sys/fs/cgroup/systemd/system.slice/docker.socket
-  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.service
-  sudo rm -rf /sys/fs/cgroup/unified/system.slice/docker.socket
-  sudo rm -rf /etc/apt/sources.list.d/docker.list
-  sudo rm -rf /etc/init/docker.conf
-  sudo rm -rf /etc/systemd/system/docker.socket
-  sudo rm -rf /etc/systemd/system/docker.service
-  sudo rm -rf /etc/systemd/system/sockets.target.wants/docker.socket
-  sudo rm -rf /etc/systemd/system/multi-user.target.wants/docker.service
-  sudo apt-get update
-  #sudo umount /var/lib/kubelet/pods/*
-  rm -r /tmp/umount.txt
-  mount -l | grep "/var/lib/kubelet/pods/" > /tmp/umount.txt
-  #sed 's^tmpfs on ^^g' |  sed 's^ tmpfs (rw,relatime,inode64)^^g' | /tmp/umount.txt
-  sed 's^tmpfs on ^umount ^g; s^ type tmpfs (rw,relatime,inode64)^^g' /tmp/umount.txt > kubmounts.txt
-  source ./kubmounts.txt
-  echo "list of mounts is: " $(mount -l)
 }
 
 if [ -z "$1" ]
