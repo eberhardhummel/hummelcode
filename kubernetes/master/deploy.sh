@@ -41,7 +41,7 @@ function buildup {
   sleep 30
   docker info
   docker ps -a
-  docker images | tee /tmp/docker_images.out
+  sudo docker images | tee /tmp/docker_images.out
 
   return
   
@@ -195,15 +195,16 @@ function teardown {
 #    ;;
 #esac
 
-echo "running the install..."
+echo "running the teardown/buildup loop..."
+total_runs=0
 total_succcesses=0
 total_failures=0
 while true; do
   sleep 10
-  echo "perform teardown"
+  echo "performing the :" $total_runs " teardown ( succ: " $total_succcesses " fail: " $total_failures " )"
   teardown
   sleep 10
-  echo "perform buildup"
+  echo "performing the :" $total_runs " buildup ( succ: " $total_succcesses " fail: " $total_failures " )"
   buildup
   if (cat /tmp/docker_images.out | grep "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"); then
     total_succcesses=$((total_succcesses+1))
