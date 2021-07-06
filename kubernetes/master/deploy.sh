@@ -85,7 +85,7 @@ function buildup {
       echo "**********************************************************"
       echo "**********************************************************" 
     fi
-    break
+    
     sudo swapoff -a
     sudo ufw disable
     sudo apt-get update
@@ -97,44 +97,44 @@ function buildup {
     sudo apt-get install -y kubectl
   
   
-    sudo apt-get install -y kubernetes
-    sudo apt-get install -y kubeadm
-    sudo systemctl enable kubelet
-    sudo systemctl start kubelet
-    echo "sleeping for 45 seconds to let kublet finish starting"
-    sleep 45
-    ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-    echo "ipaddress is: " $ipaddress
+    #sudo apt-get install -y kubernetes
+    #sudo apt-get install -y kubeadm
+    #sudo systemctl enable kubelet
+    #sudo systemctl start kubelet
+    #echo "sleeping for 45 seconds to let kublet finish starting"
+    #sleep 45
+    #ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+    #echo "ipaddress is: " $ipaddress
   
-    sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
-    echo "finished kubeadm init"
+    #sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
+    #echo "finished kubeadm init"
   
-    #export KUBECONFIG=/etc/kubernetes/admin.conf
-    cp /etc/kubernetes/admin.conf ~/.kube/config
+    ##export KUBECONFIG=/etc/kubernetes/admin.conf
+    #cp /etc/kubernetes/admin.conf ~/.kube/config
   
-    #install weave networking
-    echo "installing weave networking..."
-    kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+    ##install weave networking
+    #echo "installing weave networking..."
+    #kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
   
-    #install flannel networking
-    #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    ##install flannel networking
+    ##wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
   
-    #install dashboard
-    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
-    kubectl apply -f kubernetes-dashboard-anonymous.yaml
-    kubectl create -f ./create-namespace.yaml
-    kubectl apply -f hello-world-container-deployment.yaml
-    kubectl apply -f deploy-pod.yaml
-    kubectl rollout restart deployment kube-master
-    sleep 60 
-    kubectl cluster-info
-    kubectl get namespaces
-    kubectl get pods --all-namespaces
-    kubectl get nodes --all-namespaces
-    kubectl describe node kube-master
-    kubectl get services --all-namespaces
-    kubectl get deployments --all-namespaces
-    lsof -i -P -n | grep 8080
+    ##install dashboard
+    #kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+    #kubectl apply -f kubernetes-dashboard-anonymous.yaml
+    #kubectl create -f ./create-namespace.yaml
+    #kubectl apply -f hello-world-container-deployment.yaml
+    #kubectl apply -f deploy-pod.yaml
+    #kubectl rollout restart deployment kube-master
+    #sleep 60 
+    #kubectl cluster-info
+    #kubectl get namespaces
+    #kubectl get pods --all-namespaces
+    #kubectl get nodes --all-namespaces
+    #kubectl describe node kube-master
+    #kubectl get services --all-namespaces
+    #kubectl get deployments --all-namespaces
+    #lsof -i -P -n | grep 8080
   done
 return
 }
