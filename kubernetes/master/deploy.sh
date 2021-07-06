@@ -41,8 +41,9 @@ function buildup {
   sleep 30
   docker info
   docker ps -a
-  docker images
-  exit 0
+  docker images | tee /tmp/docker_images.out
+
+  return
   
   echo "2nd restart..."
   sudo service docker stop
@@ -173,26 +174,40 @@ function teardown {
   echo "list of mounts is: " $(mount -l)
 }
 
-if [ -z "$1" ]
-then
-  echo "missing parameter buildup or teardown"
-  exit 1
-fi
+#if [ -z "$1" ]
+#then
+#  echo "missing parameter buildup or teardown"
+#  exit 1
+#fi
 
-case $1 in
-  buildup)
-    buildup
-    exit 0
-    ;;
-  teardown)
-    teardown
-    exit 0
-    ;;
-  *)
-    echo "invalid parameter, exit"
-    exit 1
-    ;;
-esac
+#case $1 in
+#  buildup)
+#    buildup
+#    exit 0
+#    ;;
+#  teardown)
+#    teardown
+#    exit 0
+#    ;;
+#  *)
+#    echo "invalid parameter, exit"
+#    exit 1
+#    ;;
+#esac
 
+echo "running the install..."
+while true; do
+  sleep 10
+  echo "perform teardown"
+  teardown
+  sleep 10
+  echo "perform buildup"
+  buildup
+  if (cat /tmp/docker_images.out | grep "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"); then
+    echo "docker was installed successfully"
+  else
+    echo "docker was not properly installed, try again"
+  fi
+done
 
 
