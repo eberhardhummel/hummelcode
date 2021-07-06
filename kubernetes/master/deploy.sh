@@ -65,7 +65,7 @@ function teardown {
 function buildup {
 
   echo "running the buildup loop..."
-  total_runs=0
+  total_runs=1
   total_succcesses=0
   total_failures=0
   while true; do
@@ -120,7 +120,7 @@ function buildup {
       echo "**********************************************************"
       echo "**********************************************************"
       echo "**********************************************************"
-      echo "************** docker was installed successfully " $total_succcesses " times **************"
+      echo "************** docker was installed successfully " $total_succcesses " times in: " $total_runs " total runs **************"
       echo "**********************************************************"
       echo "**********************************************************"
       echo "**********************************************************"
@@ -134,7 +134,7 @@ function buildup {
       echo "**********************************************************"
       echo "**********************************************************"
       echo "**********************************************************"
-      echo "************** docker was not properly installed "  $total_failures " times **************"
+      echo "************** docker was *NOT* installed successfully " $total_failures " times in: " $total_runs " total runs **************"
       echo "**********************************************************"
       echo "**********************************************************"
       echo "**********************************************************"
