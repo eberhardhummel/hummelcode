@@ -15,16 +15,7 @@ function teardown {
   kubectl delete node kube-slave
   kubectl -n kubernetes-dashboard delete pod,svc --all
   kubectl -n kube-system delete pod,svc --all
-  sudo apt-get -y remove kubelet
-  sudo apt-get -y remove kubernetes-cni
-  sudo apt-get -y remove kubectl
-  sudo apt-get -y remove kubernetes
-  sudo apt-get -y remove kubeadm
-  sudo apt-get -y remove docker-ce
-  sudo apt-get -y remove docker.io
-  sudo apt-get -y remove docker-scan-plugin
-  sudo apt-get -y docker-ce-cli
-  sudo apt-get -y docker-ce-rootless-extras
+  sudo apt-get -y remove kubelet kubernetes-cni kubectl kubernetes kubeadm docker-ce docker.io docker-scan-plugin docker-ce-cli docker-ce-rootless-extras
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
   sudo apt -y autoremove
@@ -63,7 +54,6 @@ function teardown {
 
 #build up
 function buildup {
-
   echo "running the buildup loop..."
   total_runs=0
   total_succcesses=0
