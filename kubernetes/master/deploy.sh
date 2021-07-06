@@ -65,7 +65,7 @@ function teardown {
 function buildup {
 
   echo "running the buildup loop..."
-  total_runs=1
+  total_runs=0
   total_succcesses=0
   total_failures=0
   while true; do
