@@ -196,6 +196,8 @@ function teardown {
 #esac
 
 echo "running the install..."
+total_succcesses=0
+total_failures=0
 while true; do
   sleep 10
   echo "perform teardown"
@@ -204,9 +206,11 @@ while true; do
   echo "perform buildup"
   buildup
   if (cat /tmp/docker_images.out | grep "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"); then
-    echo "docker was installed successfully"
+    total_succcesses=$((total_succcesses+1))
+    echo "************** docker was installed successfully " $total_succcesses " times **************"
   else
-    echo "docker was not properly installed, try again"
+    total_failures=$((total_failures+1))
+    echo "************** docker was not properly installed "  $total_failures " times **************"
   fi
 done
 
