@@ -8,115 +8,139 @@
 #build up
 function buildup {
 
-  echo "Start build up"
-  #sudo apt-get update
-  #sudo apt-get install -y golang
+  echo "running the buildup loop..."
+  total_runs=0
+  total_succcesses=0
+  total_failures=0
+  while true; do
+    sleep 10
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "performing the :" $total_runs " buildup ( succ: " $total_succcesses " fail: " $total_failures " )"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    echo "**********************************************************"
+    total_runs=$((total_runs+1))
   
-  #sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
+    echo "Start build up"
+    #sudo apt-get update
+    #sudo apt-get install -y golang
   
-  #sudo curl -LR https://download.docker.com/linux/ubuntu/gpg -o ./docker.gpg
-  #file ./docker.gpg
-  #gpg --no-default-keyring --keyring ./docker-keyring.gpg --import ./docker.gpg
-  #gpg --no-default-keyring --keyring ./docker-keyring.gpg --export > ./docker-asc.gpg
-  #sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
+    #sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net:80 --recv-keys 7EA0A9C3F273FCD8
   
-  #sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
-  #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
-  sudo apt-get update
+    #sudo curl -LR https://download.docker.com/linux/ubuntu/gpg -o ./docker.gpg
+    #file ./docker.gpg
+    #gpg --no-default-keyring --keyring ./docker-keyring.gpg --import ./docker.gpg
+    #gpg --no-default-keyring --keyring ./docker-keyring.gpg --export > ./docker-asc.gpg
+    #sudo cp ./docker-asc.gpg /etc/apt/trusted.gpg.d/docker.gpg.asc
   
-  echo "running sudo apt-get install -y docker.io"
-  sudo apt-get install -y docker.io
-  sleep 5
-  service docker start
-  sleep 5
-  docker ps -a
-  service docker stop
-  echo "sleeping for 30 seconds..."
-  sleep 30
-  sudo mkdir /etc/docker
-  sudo cp ./daemon.json /etc/docker/daemon.json
-  echo "starting docker service"
-  service docker start
-  sleep 30
-  docker info
-  docker ps -a
-  sudo docker images | tee /tmp/docker_images.out
-
-  return
+    #sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common
+    #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu hirsute stable"
+    sudo apt-get update
   
-  echo "2nd restart..."
-  sudo service docker stop
-  sleep 30
-  echo "starting docker service"
-  sudo service docker start
-  #sudo service docker status
-  sleep 30
-  docker info
-  docker ps -a
-  docker images
-  echo "3rd restart..."
-  sudo service docker stop
-  sleep 30
-  echo "starting docker service"
-  sudo service docker start
-  #sudo service docker status
-  sleep 30
-  docker info
-  docker ps -a
-  docker images
-  exit 0
-  sudo swapoff -a
-  sudo ufw disable
-  sudo apt-get update
-  #curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  #sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
-  sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-  echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-  sudo apt-get update 
-  sudo apt-get install -y kubectl
+    echo "running sudo apt-get install -y docker.io"
+    sudo apt-get install -y docker.io
+    sleep 5
+    service docker start
+    sleep 5
+    docker ps -a
+    service docker stop
+    echo "sleeping for 30 seconds..."
+    sleep 30
+    sudo mkdir /etc/docker
+    sudo cp ./daemon.json /etc/docker/daemon.json
+    echo "starting docker service"
+    service docker start
+    sleep 30
+    docker info
+    docker ps -a
+    sudo docker images | tee /tmp/docker_images.out
+  
+    if (cat /tmp/docker_images.out | grep "REPOSITORY   TAG       IMAGE ID   CREATED   SIZE"); then
+      total_succcesses=$((total_succcesses+1))
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "************** docker was installed successfully " $total_succcesses " times **************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      break
+    else
+      total_failures=$((total_failures+1))
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "************** docker was not properly installed "  $total_failures " times **************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************"
+      echo "**********************************************************" 
+    fi
+    sudo swapoff -a
+    sudo ufw disable
+    sudo apt-get update
+    #curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    #sudo bash -c 'echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list'
+    sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    sudo apt-get update 
+    sudo apt-get install -y kubectl
   
   
-  sudo apt-get install -y kubernetes
-  sudo apt-get install -y kubeadm
-  sudo systemctl enable kubelet
-  sudo systemctl start kubelet
-  echo "sleeping for 45 seconds to let kublet finish starting"
-  sleep 45
-  ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-  echo "ipaddress is: " $ipaddress
+    sudo apt-get install -y kubernetes
+    sudo apt-get install -y kubeadm
+    sudo systemctl enable kubelet
+    sudo systemctl start kubelet
+    echo "sleeping for 45 seconds to let kublet finish starting"
+    sleep 45
+    ipaddress=$(ip -f inet addr show ens33 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+    echo "ipaddress is: " $ipaddress
   
-  sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
-  echo "finished kubeadm init"
+    sudo kubeadm init --apiserver-advertise-address=$ipaddress | tee /root/kubeadmin-init.log
+    echo "finished kubeadm init"
   
-  #export KUBECONFIG=/etc/kubernetes/admin.conf
-  cp /etc/kubernetes/admin.conf ~/.kube/config
+    #export KUBECONFIG=/etc/kubernetes/admin.conf
+    cp /etc/kubernetes/admin.conf ~/.kube/config
   
-  #install weave networking
-  echo "installing weave networking..."
-  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+    #install weave networking
+    echo "installing weave networking..."
+    kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
   
-  exit 0
+    #install flannel networking
+    #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
   
-  #install flannel networking
-  #wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-  
-  #install dashboard
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
-  kubectl apply -f kubernetes-dashboard-anonymous.yaml
-  kubectl create -f ./create-namespace.yaml
-  kubectl apply -f hello-world-container-deployment.yaml
-  kubectl apply -f deploy-pod.yaml
-  kubectl rollout restart deployment kube-master
-  sleep 60 
-  kubectl cluster-info
-  kubectl get namespaces
-  kubectl get pods --all-namespaces
-  kubectl get nodes --all-namespaces
-  kubectl describe node kube-master
-  kubectl get services --all-namespaces
-  kubectl get deployments --all-namespaces
-  lsof -i -P -n | grep 8080
+    #install dashboard
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+    kubectl apply -f kubernetes-dashboard-anonymous.yaml
+    kubectl create -f ./create-namespace.yaml
+    kubectl apply -f hello-world-container-deployment.yaml
+    kubectl apply -f deploy-pod.yaml
+    kubectl rollout restart deployment kube-master
+    sleep 60 
+    kubectl cluster-info
+    kubectl get namespaces
+    kubectl get pods --all-namespaces
+    kubectl get nodes --all-namespaces
+    kubectl describe node kube-master
+    kubectl get services --all-namespaces
+    kubectl get deployments --all-namespaces
+    lsof -i -P -n | grep 8080
+  done
+return
 }
 
 function teardown {
@@ -195,65 +219,6 @@ function teardown {
 #    ;;
 #esac
 
-echo "running the teardown/buildup loop..."
-total_runs=0
-total_succcesses=0
-total_failures=0
-while true; do
-  sleep 10
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "performing the :" $total_runs " teardown ( succ: " $total_succcesses " fail: " $total_failures " )"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  teardown
-  sleep 10
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "performing the :" $total_runs " buildup ( succ: " $total_succcesses " fail: " $total_failures " )"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  echo "**********************************************************"
-  buildup
-  if (cat /tmp/docker_images.out | grep "REPOSITORY   TAG       IMAGE ID   CREATED   SIZE"); then
-    total_succcesses=$((total_succcesses+1))
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "************** docker was installed successfully " $total_succcesses " times **************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-  else
-    total_failures=$((total_failures+1))
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "************** docker was not properly installed "  $total_failures " times **************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-    echo "**********************************************************"
-  fi
-  total_runs=$((total_runs+1))
-done
+
 
 
