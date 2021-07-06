@@ -47,17 +47,12 @@ function buildup {
     echo "running sudo apt-get install -y docker.io"
     sudo apt-get install -y docker.io
     sleep 5
-    service docker start
-    sleep 5
-    docker ps -a
     service docker stop
-    echo "sleeping for 30 seconds..."
-    sleep 30
-    sudo mkdir /etc/docker
     sudo cp ./daemon.json /etc/docker/daemon.json
     echo "starting docker service"
     service docker start
-    sleep 30
+    echo "waiting 10 seconds for docker to finish starting"
+    sleep 10
     docker info
     docker ps -a
     sudo docker images | tee /tmp/docker_images.out
@@ -90,6 +85,7 @@ function buildup {
       echo "**********************************************************"
       echo "**********************************************************" 
     fi
+    break
     sudo swapoff -a
     sudo ufw disable
     sudo apt-get update
