@@ -198,26 +198,26 @@ function teardown {
   echo "list of mounts is: " $(mount -l)
 }
 
-#if [ -z "$1" ]
-#then
-#  echo "missing parameter buildup or teardown"
-#  exit 1
-#fi
+if [ -z "$1" ]
+then
+  echo "missing parameter buildup or teardown"
+  exit 1
+fi
 
-#case $1 in
-#  buildup)
-#    buildup
-#    exit 0
-#    ;;
-#  teardown)
-#    teardown
-#    exit 0
-#    ;;
-#  *)
-#    echo "invalid parameter, exit"
-#    exit 1
-#    ;;
-#esac
+case $1 in
+  buildup)
+    buildup
+    exit 0
+    ;;
+  teardown)
+    teardown
+    exit 0
+    ;;
+  *)
+    echo "invalid parameter, exit"
+    exit 1
+    ;;
+esac
 
 
 
