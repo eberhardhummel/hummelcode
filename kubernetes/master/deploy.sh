@@ -213,6 +213,7 @@ while true; do
     total_failures=$((total_failures+1))
     echo "************** docker was not properly installed "  $total_failures " times **************"
   fi
+  total_runs=$((total_runs+1))
 done
 
 
