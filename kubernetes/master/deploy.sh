@@ -134,6 +134,7 @@ function buildup {
       teardown
     fi
   done
+  sudo systemctl enable docker.service
   sudo swapoff -a
   sudo ufw disable
   sudo apt-get update
