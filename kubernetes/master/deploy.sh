@@ -15,6 +15,7 @@ function teardown {
   kubectl delete node kube-slave
   kubectl -n kubernetes-dashboard delete pod,svc --all
   kubectl -n kube-system delete pod,svc --all
+  service docker stop
   sudo apt-get -y remove kubelet kubernetes-cni kubectl kubernetes kubeadm docker-ce docker.io docker-scan-plugin docker-ce-cli docker-ce-rootless-extras
   #sudo apt-get -y remove golang
   #sudo apt-get -y remove libvirt
