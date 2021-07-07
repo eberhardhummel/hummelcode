@@ -94,12 +94,12 @@ function buildup {
     echo "running sudo apt-get install -y docker.io"
     sudo apt-get install -y docker.io
     sleep 5
-    #service docker stop
-    #sudo cp ./daemon.json /etc/docker/daemon.json
-    #echo "starting docker service"
-    #service docker start
-    #echo "waiting 10 seconds for docker to finish starting"
-    #sleep 10
+    service docker stop
+    sudo cp ./daemon.json /etc/docker/daemon.json
+    echo "starting docker service after replacing /etc/docker/daemon.json"
+    service docker start
+    echo "waiting 10 seconds for docker to finish starting"
+    sleep 10
     docker info
     docker ps -a
     sudo docker images | tee /tmp/docker_images.out
